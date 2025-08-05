@@ -1,6 +1,43 @@
 # JobApp - Job and Company Review Management System
 
-This is a Spring Boot application for managing jobs, companies, and company reviews.
+This is a Spring Boot application ## Docker Config
+1. Build the Docker image:
+```bash
+./mvnw spring-boot:build-image "-Dspring-boot.build-image.imageName=arpon007/jobappimage"   
+```
+2. Login to Docker Hub:
+```bash
+docker login
+```
+3. Push the image to Docker Hub:
+```bash
+docker push arpon007/jobappimage
+```
+
+### Troubleshooting Docker Push Issues
+
+If you get "push access denied" error:
+
+1. **Check if you're logged in with the correct account:**
+   ```bash
+   docker logout
+   docker login
+   ```
+
+2. **Verify the repository exists on Docker Hub:**
+   - Go to https://hub.docker.com
+   - Create repository named `jobappimage` under your account
+
+3. **Alternative: Use a different tag/namespace:**
+   ```bash
+   # Build with your Docker Hub username
+   ./mvnw spring-boot:build-image "-Dspring-boot.build-image.imageName=yourusername/jobappimage"
+   docker push yourusername/jobappimage
+   ```
+
+4. **Check repository permissions:**
+   - Ensure you have write access to the repository
+   - For organization repositories, check if you're a member with push permissionsjobs, companies, and company reviews.
 
 ## API Endpoints
 
@@ -83,4 +120,18 @@ This will return:
     "companyId": 1,
     "averageRating": 4.2
 }
+```
+
+## Docker Config
+1.
+```bash
+ ./mvnw spring-boot:build-image "-Dspring-boot.build-image.imageName=drac007/jobappimage"   
+```
+2.
+```bash
+docker login
+```
+3.
+```bash
+docker push drac007/jobappimage
 ```

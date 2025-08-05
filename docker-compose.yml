@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # Spring Boot JobApp Application
+  jobapp:
+    image: drac007/jobappimage
+    container_name: jobapp-application
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/JobApp
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: arpon007
+    depends_on:
+      - mysql
+    networks:
+      - jobapp-network
+
+  mysql:
+    image: mysql:latest
+    container_name: jobapp-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: arpon007
+      MYSQL_DATABASE: JobApp
+      MYSQL_USER: jobapp_user
+      MYSQL_PASSWORD: jobapp_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-db:/docker-entrypoint-initdb.d
+    networks:
+      - jobapp-network
+
+  # Optional: phpMyAdmin for database management
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: jobapp-phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: arpon007
+    depends_on:
+      - mysql
+    networks:
+      - jobapp-network
+
+volumes:
+  mysql_data:
+
+networks:
+  jobapp-network:
+    driver: bridge
